@@ -171,8 +171,8 @@ def analyze(trials, model):
     mean_accuracy = 0
     total_accuracy = []
 
-    # accuracy for all 25 trials  
-    for trial in trials: 
+    # Accuracy for all 25 trials  
+    for i, trial in enumerate(trials, start=1): 
         if model == 'GNB':
             trial_accuracy, trial_CR = gaussianNBModel(trial)
             total_accuracy.append(trial_accuracy)
@@ -190,32 +190,20 @@ def analyze(trials, model):
             total_accuracy.append(trial_accuracy)
             mean_accuracy += trial_accuracy
     mean_accuracy/=25
-    print(f'{model} Accuracy: {mean_accuracy/100:.2%}')
+    print(f'Naive Bayes Accuracy: {mean_accuracy:.2%}')
 
-    # finding the top 3 trials for best accuracy 
-    top3 = total_accuracy
-    max1 = (0,0) #index, value
-    max2 = (0,0) 
-    max3 = (0,0) 
-    size = len(top3)
-    for i in range(size):
-        if top3[i] > max1[1]:
-            max1 = (i, top3[i]) 
-    top3.remove(max1[1])
+    # Finding the top 3 trials for best accuracy 
+    top3 = total_accuracy.copy()
 
-    size = len(top3)
-    for i in range(size):
-        if top3[i] > max2[1]:
-            max2 = (i, top3[i]) 
-    top3.remove(max2[1])
+    max1 = max(enumerate(top3), key=lambda x: x[1])
+    top3[max1[0]] = float('-inf')  
 
-    size = len(top3)
-    for i in range(size):
-        if top3[i] > max3[1]:
-            max3 = (i, top3[i]) 
-    top3.remove(max3[1])
-            
-    a = (max1[1]+max2[1]+max3[1])/3
-    print(f'Accuracy of top 3 trials: {a/100:.2%}')
+    max2 = max(enumerate(top3), key=lambda x: x[1])
+    top3[max2[0]] = float('-inf') 
+
+    max3 = max(enumerate(top3), key=lambda x: x[1])
+    top3[max3[0]] = float('-inf')  
+
+    a = (max1[1] + max2[1] + max3[1]) / 3
+    print(f'Accuracy of top 3 trials: {a:.2%}')
     print(f"Top 3 trials: {max1[0]}, {max2[0]}, {max3[0]}")
-    print(f'Top Accuracy: {max1[1]}')
