@@ -14,13 +14,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 from sklearn.preprocessing import StandardScaler
-from sklearn.feature_selection import SelectKBest, mutual_info_classif
 
 import warnings
 warnings.filterwarnings('ignore')
-
-
-
 
 
 def gaussianNBModel(trial, output=False) :
@@ -148,25 +144,6 @@ def logistic_regression(trial, output=False) :
     return a, cr
 
 
-def print_accuracy(trials, model):
-    mean_accuracy = 0
-    for trial in trials: 
-        if model == 'GNB':
-            trial_accuracy, trial_CR = gaussianNBModel(trial)
-            mean_accuracy += trial_accuracy
-        elif model == 'RF':
-            trial_accuracy, trial_CR = RandomForestModel(trial)
-            mean_accuracy += trial_accuracy
-        elif model == 'SVM':
-            trial_accuracy, trial_CR = SupportVectorMachines(trial)
-            mean_accuracy += trial_accuracy
-        elif model == 'LR':
-            trial_accuracy, trial_CR = logistic_regression(trial)
-            mean_accuracy += trial_accuracy
-    mean_accuracy/=25
-    return mean_accuracy
-
-
 def analyze(trials, model):
     mean_accuracy = 0
     total_accuracy = []
@@ -190,7 +167,7 @@ def analyze(trials, model):
             total_accuracy.append(trial_accuracy)
             mean_accuracy += trial_accuracy
     mean_accuracy/=25
-    print(f'Naive Bayes Accuracy: {mean_accuracy:.2%}')
+    print(f'{model} Accuracy: {mean_accuracy:.2%}')
 
     # Finding the top 3 trials for best accuracy 
     top3 = total_accuracy.copy()
