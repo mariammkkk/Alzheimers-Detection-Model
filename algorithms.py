@@ -1,3 +1,6 @@
+# This file contains all the models implemented in all_trialsipynb
+# Authors: Rija Khan (rk1047), Mariam Khan (mk2199), Maria Iqbal (mi327)
+
 # Importing libraries
 import pandas as pd
 import numpy as np
